@@ -46,10 +46,10 @@ fetch = do
   bl <- gets getter
   case bl of
     [] -> do
-      logDebug "backlog: empty"
+      logInfo "backlog: empty"
       pure Nothing
     (x:xs) -> do
-      modify $ modifier $ const xs
+      store xs
       pure $ Just x
 
 
