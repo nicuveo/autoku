@@ -17,3 +17,9 @@ store = modify . modifier . const
 
 fastNub :: Ord a => [a] -> [a]
 fastNub = map head . group . sort
+
+
+success :: Applicative f => f Bool
+success = pure True
+failure :: Applicative f => f Bool
+failure = pure False
