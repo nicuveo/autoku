@@ -7,6 +7,7 @@ import           Control.Monad.Extra
 import           Control.Monad.Primitive
 import qualified Data.HashMap.Strict     as M
 import           Data.Maybe
+import qualified Data.Vector             as V
 import qualified Data.Vector.Mutable     as V
 
 import           Autoku.Cell
@@ -66,4 +67,4 @@ instance (PrimMonad m, s ~ PrimState m) => Grid (V.MVector s Cell) m where
   gRead   g p   = V.unsafeRead   g (fromEnum p)
   gWrite  p x g = V.unsafeWrite  g (fromEnum p) x >> pure Nothing
   gModify f p g = V.unsafeModify g f (fromEnum p) >> pure Nothing
-  gExport = error "TODO"
+  gExport g     = V.toList <$> V.freeze g
