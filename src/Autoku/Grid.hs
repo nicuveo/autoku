@@ -24,9 +24,11 @@ class Monad m => Grid g m where
   gExport :: g -> m [Cell]
 
 class Grid g m => MonadGrid g m | m -> g where
-  getGrid :: m g
-  setGrid :: g -> m ()
-
+  pushGrid :: m g
+  popGrid  :: m g
+  getGrid  :: m g
+  setGrid  :: g -> m ()
+  getStack :: m [g]
 
 
 -- practical use

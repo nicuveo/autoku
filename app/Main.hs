@@ -1,8 +1,7 @@
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
 {-# LANGUAGE TupleSections              #-}
 
-import           Control.Monad.Extra      (whenJustM)
-import           Control.Monad.Loops      (whileJust_)
+import           Control.Monad.Extra
 import           Control.Monad.Primitive
 import           Control.Monad.Reader
 import           Control.Monad.RWS.Strict
@@ -28,10 +27,20 @@ instance Has LogLevel r => MonadLogger (IOSolver r s) where
   log = ioLogger
 
 instance ( PrimMonad (IOSolver r s)
-         , Has (V.MVector RealWorld Cell) s
+         , Has [V.MVector RealWorld Cell] s
          ) => MonadGrid (V.MVector RealWorld Cell) (IOSolver r s) where
-  getGrid = retrieve
-  setGrid = store
+  getGrid = head <$> retrieve
+  setGrid = error "vector pointers shouldn't be updated"
+  pushGrid = do
+    stack <- getStack
+    newG  <- V.clone $ head stack
+    store $ newG : stack
+    pure newG
+  popGrid = do
+    stack <- getStack
+    store $ tail stack
+    pure $ stack !! 1
+  getStack = retrieve
 
 
 
@@ -56,10 +65,8 @@ main = do
                     , knightSumRule 13 i1
                     , knightSumRule 15 i9
                     ]
-  res <- runWith (Info, constraints) (grid, [] :: [Point]) $ do
-    logInfo "starting"
-    flagAllEmpty
-    whileJust_ fetch simplify
+  res <- runWith (Info, constraints) ([grid], [] :: [Point]) $ do
+    unlessM solve $ logFatal "Failed to find a solution!"
     export
   putStrLn $ prettyPrint res
 
