@@ -1,9 +1,12 @@
 module Autoku.Constraint where
 
+import           Control.Applicative (liftA2)
+import           Data.List           (delete, foldl')
 import           Data.Maybe
 import           Text.Printf
 
 import           Autoku.Cell
+import           Autoku.Misc
 import           Autoku.Point
 
 
@@ -41,7 +44,8 @@ knightsRule = Constraint
 knightSumRule :: Int -> Point -> Constraint
 knightSumRule x p = Constraint
   { cName     = printf "sum of knight neighbours of %s is $d" (show p) x
-  , cPoints   = Just [p]
-  , cOthers   = const $ knightNeighbours p
-  , cRestrict = \cs -> intersect $ (x-) . sum <$> traverse possible cs
+  , cPoints   = Just  $ knightNeighbours p
+  , cOthers   = flip delete $ knightNeighbours p
+  , cRestrict = \cs -> flip intersect $ (x-) <$> computeSums cs
   }
+  where computeSums = foldl' (fastNub ... liftA2 (+)) [0]
