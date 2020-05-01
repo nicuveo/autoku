@@ -50,6 +50,10 @@ fetch = do
       store xs
       pure $ Just x
 
+flagAllEmpty :: (MonadGrid g m, MonadLogger m, MonadBacklog s m) => m ()
+flagAllEmpty =
+  for_ allPoints $ \p -> whenM ((empty ==) <$> readM p) $ flag p
+
 
 
 -- simplify
