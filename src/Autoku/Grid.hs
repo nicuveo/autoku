@@ -66,3 +66,4 @@ instance (PrimMonad m, s ~ PrimState m) => Grid (V.MVector s Cell) m where
   gRead   g p   = V.unsafeRead   g (fromEnum p)
   gWrite  p x g = V.unsafeWrite  g (fromEnum p) x >> pure Nothing
   gModify f p g = V.unsafeModify g f (fromEnum p) >> pure Nothing
+  gExport = error "TODO"
