@@ -1,4 +1,3 @@
-{-# LANGUAGE OverloadedStrings #-}
 
 module Autoku.Point
   ( Point(pRow, pCol)
