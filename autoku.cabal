@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 71f1c452d73e31945fe333c5f79a491430afcee77e4cbf224ebe51897890f897
+-- hash: 8afd17884abac8d24fb9301d4f2b51f38a58304e037ef208c8ee3081ea2200c0
 
 name:           autoku
 version:        0.1.0.0
@@ -59,7 +59,7 @@ executable autoku
   hs-source-dirs:
       app
   default-extensions: ConstraintKinds ExistentialQuantification FlexibleContexts FlexibleInstances MultiParamTypeClasses OverloadedStrings TypeFamilies ViewPatterns
-  ghc-options: -Wall -threaded -rtsopts -with-rtsopts=-N
+  ghc-options: -Wall -O2 -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       autoku
     , base >=4.7 && <5
