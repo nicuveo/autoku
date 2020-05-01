@@ -8,5 +8,8 @@ import           Data.Has
 f ... g = \x y -> f $ g x y
 
 
+retrieve :: (MonadState s m, Has x s) => m x
+retrieve = gets getter
+
 store :: (MonadState s m, Has x s) => x -> m ()
 store = modify . modifier . const

@@ -24,7 +24,7 @@ instance Has LogLevel r => MonadLogger (IOSolver r s) where
 type GridImplem = M.HashMap Point Cell
 
 instance Has GridImplem s => MonadGrid GridImplem (IOSolver r s) where
-  getGrid = gets getter
+  getGrid = retrieve
   setGrid = store
 
 

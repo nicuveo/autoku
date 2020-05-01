@@ -36,14 +36,14 @@ type MonadConstraints r m = (MonadReader r m, Has [Constraint] r)
 flag :: (MonadGrid g m, MonadLogger m, MonadBacklog s m) => Point -> m ()
 flag p =
   unlessM (isSolved <$> readM p) $ do
-    backlog <- gets getter
+    backlog <- retrieve
     unless (p `elem` backlog) $ do
       logDebug $ "backlog: flagging " ++ show p
       store $ p:backlog
 
 fetch :: (MonadLogger m, MonadBacklog s m) => m (Maybe Point)
 fetch = do
-  bl <- gets getter
+  bl <- retrieve
   case bl of
     [] -> do
       logInfo "backlog: empty"
