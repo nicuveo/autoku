@@ -1,0 +1,79 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.33.0.
+--
+-- see: https://github.com/sol/hpack
+--
+-- hash: 71f1c452d73e31945fe333c5f79a491430afcee77e4cbf224ebe51897890f897
+
+name:           autoku
+version:        0.1.0.0
+homepage:       https://github.com/nicuveo/autoku#readme
+bug-reports:    https://github.com/nicuveo/autoku/issues
+build-type:     Simple
+extra-source-files:
+    README.md
+
+source-repository head
+  type: git
+  location: https://github.com/nicuveo/autoku
+
+library
+  exposed-modules:
+      Autoku
+      Autoku.Cell
+      Autoku.Constraint
+      Autoku.Grid
+      Autoku.IO
+      Autoku.Logging
+      Autoku.Misc
+      Autoku.Point
+      Autoku.Solver
+  other-modules:
+      Paths_autoku
+  hs-source-dirs:
+      src
+  default-extensions: ConstraintKinds ExistentialQuantification FlexibleContexts FlexibleInstances MultiParamTypeClasses OverloadedStrings TypeFamilies ViewPatterns
+  ghc-options: -Wall
+  build-depends:
+      base >=4.7 && <5
+    , containers
+    , data-has
+    , extra
+    , hashable
+    , monad-loops
+    , mtl
+    , primitive
+    , split
+    , text
+    , time
+    , transformers-base
+    , unordered-containers
+    , vector
+  default-language: Haskell2010
+
+executable autoku
+  main-is: Main.hs
+  other-modules:
+      Paths_autoku
+  hs-source-dirs:
+      app
+  default-extensions: ConstraintKinds ExistentialQuantification FlexibleContexts FlexibleInstances MultiParamTypeClasses OverloadedStrings TypeFamilies ViewPatterns
+  ghc-options: -Wall -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      autoku
+    , base >=4.7 && <5
+    , containers
+    , data-has
+    , extra
+    , hashable
+    , monad-loops
+    , mtl
+    , primitive
+    , split
+    , text
+    , time
+    , transformers-base
+    , unordered-containers
+    , vector
+  default-language: Haskell2010

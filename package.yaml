@@ -1,0 +1,49 @@
+name:                autoku
+version:             0.1.0.0
+github:              "nicuveo/autoku"
+
+extra-source-files:
+- README.md
+
+dependencies:
+  - base >= 4.7 && < 5
+  - containers
+  - data-has
+  - extra
+  - hashable
+  - mtl
+  - monad-loops
+  - primitive
+  - split
+  - text
+  - time
+  - transformers-base
+  - unordered-containers
+  - vector
+
+ghc-options:
+  - -Wall
+
+default-extensions:
+  - ConstraintKinds
+  - ExistentialQuantification
+  - FlexibleContexts
+  - FlexibleInstances
+  - MultiParamTypeClasses
+  - OverloadedStrings
+  - TypeFamilies
+  - ViewPatterns
+
+library:
+  source-dirs: src
+
+executables:
+  autoku:
+    main:                Main.hs
+    source-dirs:         app
+    ghc-options:
+      - -threaded
+      - -rtsopts
+      - -with-rtsopts=-N
+    dependencies:
+      - autoku
