@@ -1,3 +1,5 @@
+{-# LANGUAGE ParallelListComp #-}
+
 module Autoku.IO where
 
 
@@ -11,11 +13,18 @@ import           Autoku.Cell
 
 
 prettyPrint :: [Cell] -> String
-prettyPrint cells = unlines $ renderG groups
+prettyPrint cells = unlines $ header : (' ' <$ header) : renderG groups
   where
-    groups = chunksOf 9 $ chunksOf 9 cells >>= \r -> [renderRow x r | x <- [0..2]]
-    smallHLine = "┄┄┄┄┄┼┄┄┄┄┄┼┄┄┄┄┄╫┄┄┄┄┄┼┄┄┄┄┄┼┄┄┄┄┄╫┄┄┄┄┄┼┄┄┄┄┄┼┄┄┄┄┄"
-    largeHLine = "═════╪═════╪═════╬═════╪═════╪═════╬═════╪═════╪═════"
+    groups = chunksOf 9 $ concat [ [ "   "  ++ renderRow 0 r
+                                   , c:"  " ++ renderRow 1 r
+                                   , "   "  ++ renderRow 2 r
+                                   ]
+                                 | r <- chunksOf 9 cells
+                                 | c <- ['A'..]
+                                 ]
+    header     = "     1     2     3     4     5     6     7     8     9  "
+    smallHLine = "   ┄┄┄┄┄┼┄┄┄┄┄┼┄┄┄┄┄╫┄┄┄┄┄┼┄┄┄┄┄┼┄┄┄┄┄╫┄┄┄┄┄┼┄┄┄┄┄┼┄┄┄┄┄"
+    largeHLine = "   ═════╪═════╪═════╬═════╪═════╪═════╬═════╪═════╪═════"
     smallVChar = "┊"
     largeVChar = "║"
     renderG g     = intercalate [largeHLine] $ renderS <$> g
